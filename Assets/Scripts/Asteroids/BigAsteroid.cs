@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BigAsteroid : Asteroid<BigAsteroidConfiguration>
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void DestroyAsteroid()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        base.DestroyAsteroid();
+        List<MediumAsteroid> asteroids = _asteroidManager.GetMediumAsteroid(_asteroidConfiguration.AsteroidsToSpawn);
+        for (int i = 0; i < asteroids.Count; i++)
+        {
+            asteroids[i].transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
+            asteroids[i].RotateRandom();
+            asteroids[i].gameObject.SetActive(true);
+        }
     }
 }

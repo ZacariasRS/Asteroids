@@ -5,5 +5,7 @@ using UnityEngine;
 public class SpawnAsteroidConfiguration : AsteroidConfiguration
 {
     [SerializeField]
-    protected float _asteroidToSpawn;
+    protected int _asteroidsToSpawn;
+
+    public int AsteroidsToSpawn => _asteroidsToSpawn;
 }
