@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96c0f00084f7b5147ab7a394629ab545, type: 3}
-  m_Name: BulletConfiguration
+  m_Script: {fileID: 11500000, guid: 59cc2b3a783c1af43878f34ed43d2a34, type: 3}
+  m_Name: GameConfiguration
   m_EditorClassIdentifier: 
-  _speed: 0
-  _timeToLive: 0
+  _numberOfLives: 3
+  _timeBetweenDeath: 2

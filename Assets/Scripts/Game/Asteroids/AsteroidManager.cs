@@ -1,9 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameController _gameController;
     [SerializeField]
     private List<SmallAsteroid> _smallAsteroids;
     [SerializeField]
@@ -17,8 +20,19 @@ public class AsteroidManager : MonoBehaviour
     [SerializeField]
     private BigAsteroid _bigAsteroidPrefab;
 
+    [Space]
+    [SerializeField]
+    private Transform[] _spawnLocations;
+
+    private int _numberOfSmallAsteroids, _numberOfMediumAsteroids, _numberOfBigAsteroids;
+
+    public int NumberOfSmallAsteroids => _numberOfSmallAsteroids;
+    public int NumberOfMediumAsteroids => _numberOfMediumAsteroids;
+    public int NumberOfBigAsteroids => _numberOfBigAsteroids;
+
     private void Awake()
     {
+        _numberOfBigAsteroids = _numberOfMediumAsteroids = _numberOfSmallAsteroids = 0;
         for (int i = 0; i < _smallAsteroids.Count; i++)
         {
             _smallAsteroids[i].SetAsteroidManager(this);
@@ -31,6 +45,30 @@ public class AsteroidManager : MonoBehaviour
         {
             _bigAsteroids[i].SetAsteroidManager(this);
         }
+    }
+
+    public void AddSmallAsteroid(bool b)
+    {
+        if (b)
+            _numberOfSmallAsteroids++;
+        else
+            _numberOfSmallAsteroids--;
+    }
+
+    public void AddMediumAsteroid(bool b)
+    {
+        if (b)
+            _numberOfMediumAsteroids++;
+        else
+            _numberOfMediumAsteroids--;
+    }
+
+    public void AddBigAsteroid(bool b)
+    {
+        if (b)
+            _numberOfBigAsteroids++;
+        else
+            _numberOfBigAsteroids--;
     }
 
     public List<SmallAsteroid> GetSmallAsteroid(int count)
@@ -53,6 +91,23 @@ public class AsteroidManager : MonoBehaviour
             }
         }
         return smallAsteroids;
+    }
+
+    internal void DeactivateAllAsteroids()
+    {
+        for (int i = 0; i < _smallAsteroids.Count; i++)
+        {
+            _smallAsteroids[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < _mediumAsteroids.Count; i++)
+        {
+            _mediumAsteroids[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < _bigAsteroids.Count; i++)
+        {
+            _bigAsteroids[i].gameObject.SetActive(false);
+        }
+        _numberOfBigAsteroids = _numberOfMediumAsteroids = _numberOfSmallAsteroids = 0;
     }
 
     public List<MediumAsteroid> GetMediumAsteroid(int count)
@@ -97,5 +152,48 @@ public class AsteroidManager : MonoBehaviour
             }
         }
         return bigAsteroids;
+    }
+
+    public void SpawnSmallAsteroids(int count)
+    {
+        List<SmallAsteroid> asteroids = GetSmallAsteroid(count);
+        for (int i = 0; i < asteroids.Count; i++)
+        {
+            SpawnAsteroid(asteroids[i]);
+        }
+    }
+
+    public void SpawnMediumAsteroids(int count)
+    {
+        List<MediumAsteroid> asteroids = GetMediumAsteroid(count);
+        for (int i = 0; i < asteroids.Count; i++)
+        {
+            SpawnAsteroid(asteroids[i]);
+        }
+    }
+
+    public void SpawnBigAsteroids(int count)
+    {
+        List<BigAsteroid> asteroids = GetBigAsteroid(count);
+        for (int i = 0; i < asteroids.Count; i++)
+        {
+            SpawnAsteroid(asteroids[i]);
+        }
+    }
+
+    private Transform GetRandomSpawn()
+    {
+        return _spawnLocations[UnityEngine.Random.Range(0, _spawnLocations.Length)];
+    }
+
+    private void SpawnAsteroid(IAsteroid asteroid)
+    {
+        asteroid.SetPositionAndRotation(GetRandomSpawn());
+        asteroid.SetActive(true);
+    }
+
+    public void AddToScore(int points)
+    {
+        _gameController.AddToCurrentScore(points);
     }
 }

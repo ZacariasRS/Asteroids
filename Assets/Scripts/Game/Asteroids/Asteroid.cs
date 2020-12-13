@@ -1,8 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Asteroid<T> : MonoBehaviour where T : AsteroidConfiguration
+public interface IAsteroid
+{
+    bool IsActive();
+    void RotateRandom();
+    void SetPositionAndRotation(Transform transform);
+    void SetActive(bool active);
+}
+public class Asteroid<T> : MonoBehaviour, IAsteroid where T : AsteroidConfiguration
 {
     [SerializeField]
     protected T _asteroidConfiguration;
@@ -45,6 +51,17 @@ public class Asteroid<T> : MonoBehaviour where T : AsteroidConfiguration
 
     protected virtual void DestroyAsteroid()
     {
-        this.gameObject.SetActive(false);
+        _asteroidManager.AddToScore(_asteroidConfiguration.Points);
+        SetActive(false);
+    }
+
+    public void SetPositionAndRotation(Transform t)
+    {
+        this.transform.SetPositionAndRotation(t.position, t.rotation);
+    }
+
+    public virtual void SetActive(bool active)
+    {
+        this.gameObject.SetActive(active);
     }
 }

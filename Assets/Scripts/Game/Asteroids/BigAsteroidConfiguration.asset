@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a41aabb46e011ca47abf618b439f83b4, type: 3}
-  m_Name: ShipConfiguration
+  m_Script: {fileID: 11500000, guid: 50dd962685629884aa8ffe0eb7f914fd, type: 3}
+  m_Name: BigAsteroidConfiguration
   m_EditorClassIdentifier: 
-  _maxSpeed: 0
-  _speed: 0
-  _rotationSpeed: 0
-  _linearDrag: 0
+  _speed: 0.25
+  _points: 4
+  _asteroidsToSpawn: 2

@@ -9,9 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50dd962685629884aa8ffe0eb7f914fd, type: 3}
-  m_Name: BigAsteroidConfiguration
+  m_Script: {fileID: 11500000, guid: 96c0f00084f7b5147ab7a394629ab545, type: 3}
+  m_Name: BulletConfiguration
   m_EditorClassIdentifier: 
-  _speed: 0
-  _points: 0
-  _asteroidToSpawn: 0
+  _speed: 2
+  _timeToLive: 1.5

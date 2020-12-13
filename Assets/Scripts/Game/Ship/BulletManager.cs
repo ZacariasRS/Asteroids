@@ -20,4 +20,12 @@ public class BulletManager : MonoBehaviour
         }
         return bullet;
     }
+
+    public void DeactiveAllBullets()
+    {
+        for (int i = 0; i < _bullets.Count; i++)
+        {
+            _bullets[i].gameObject.SetActive(false);
+        }
+    }
 }

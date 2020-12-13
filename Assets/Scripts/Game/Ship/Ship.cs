@@ -6,14 +6,22 @@ using static UnityEngine.InputSystem.InputAction;
 public class Ship : MonoBehaviour
 {
     [SerializeField]
+    private SpriteRenderer _shipSpriteRenderer;
+    [SerializeField]
     private ShipConfiguration _shipConfiguration;
     [SerializeField]
     private BulletManager _bulletManager;
+    [SerializeField]
+    private GameController _gameController;
+    [SerializeField]
+    private Transform _firePosition;
 
     private Vector2 _lastInput;
     private Rigidbody2D _rigidBody;
     private Transform _transform;
     private float _lastTimeFire;
+
+    private bool _acceptInput;
     private void Awake()
     {
         _lastTimeFire = float.MinValue;
@@ -33,11 +41,15 @@ public class Ship : MonoBehaviour
 
     public void MoveInput(CallbackContext context)
     {
+        if (!_acceptInput)
+            return;
         MoveInput(context.ReadValue<Vector2>());
     }
 
     public void FireInput(CallbackContext context)
     {
+        if (!_acceptInput)
+            return;
         if (context.performed)
         {
             if (Time.time - _lastTimeFire > _shipConfiguration.FireCooldown)
@@ -50,16 +62,60 @@ public class Ship : MonoBehaviour
     private void FireBullet()
     {
         Bullet bullet = _bulletManager.GetBullet();
-        bullet.Fire(this);
+        bullet.Fire(_firePosition);
         _lastTimeFire = Time.time;
     }
 
     public void FixedUpdate()
     {
+        if (!_acceptInput)
+            return;
         if (_rigidBody.velocity.magnitude < _shipConfiguration.MaxSpeed)
         {
             _rigidBody.AddForce(_transform.right * (_lastInput.y * _shipConfiguration.Speed), ForceMode2D.Impulse);
         }
         _transform.Rotate(new Vector3(0, 0, -1 * _lastInput.x * _shipConfiguration.RotationSpeed));
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("ShipBullet"))
+        {
+            if (collision.GetComponent<Bullet>().ExitedShip)
+            {
+                collision.gameObject.SetActive(false);
+                DestroyByShipBullet(collision);
+            }
+        }
+        else if (collision.CompareTag("Asteroid"))
+        {
+            DestroyByAsteroid(collision);
+        }
+    }
+
+    private void DestroyByShipBullet(Collider2D collision)
+    {
+        _lastInput = Vector2.zero;
+        _acceptInput = false;
+        ActivateShip(false);
+        _gameController.ShipDestroyed();
+    }
+
+    private void DestroyByAsteroid(Collider2D collision)
+    {
+        _lastInput = Vector2.zero;
+        _acceptInput = false;
+        ActivateShip(false);
+        _gameController.ShipDestroyed();
+    }
+
+    public void AcceptInput(bool b)
+    {
+        _acceptInput = b;
+    }
+
+    public void ActivateShip(bool active)
+    {
+        this.gameObject.SetActive(active);
     }
 }

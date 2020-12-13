@@ -10,9 +10,15 @@ public class BigAsteroid : Asteroid<BigAsteroidConfiguration>
         List<MediumAsteroid> asteroids = _asteroidManager.GetMediumAsteroid(_asteroidConfiguration.AsteroidsToSpawn);
         for (int i = 0; i < asteroids.Count; i++)
         {
-            asteroids[i].transform.SetPositionAndRotation(this.transform.position, this.transform.rotation);
+            asteroids[i].SetPositionAndRotation(this.transform);
             asteroids[i].RotateRandom();
-            asteroids[i].gameObject.SetActive(true);
+            asteroids[i].SetActive(true);
         }
+    }
+
+    public override void SetActive(bool active)
+    {
+        base.SetActive(active);
+        _asteroidManager.AddBigAsteroid(active);
     }
 }
