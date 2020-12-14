@@ -6,7 +6,6 @@ public class BulletManager : MonoBehaviour
 {
     [SerializeField]
     private List<Bullet> _bullets;
-
     [SerializeField]
     private Bullet bulletPrefab;
 

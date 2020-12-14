@@ -51,6 +51,8 @@ public class Asteroid<T> : MonoBehaviour, IAsteroid where T : AsteroidConfigurat
 
     protected virtual void DestroyAsteroid()
     {
+        _asteroidManager.VFXManager.DoExplosionVFX(this.transform);
+        _asteroidManager.SoundManager.DoExplosionSound();
         _asteroidManager.AddToScore(_asteroidConfiguration.Points);
         SetActive(false);
     }

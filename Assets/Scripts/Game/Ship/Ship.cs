@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.InputSystem.InputAction;
+using UnityEngine.UI;
 
 public class Ship : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class Ship : MonoBehaviour
     private GameController _gameController;
     [SerializeField]
     private Transform _firePosition;
+    [SerializeField]
+    private SoundManager _soundManager;
+    [SerializeField]
+    private VFXManager _vfxManager;
 
     private Vector2 _lastInput;
     private Rigidbody2D _rigidBody;
@@ -52,15 +57,21 @@ public class Ship : MonoBehaviour
             return;
         if (context.performed)
         {
-            if (Time.time - _lastTimeFire > _shipConfiguration.FireCooldown)
-            {
-                FireBullet();
-            }
+            CheckFire();
+        }
+    }
+
+    private void CheckFire()
+    {
+        if (Time.time - _lastTimeFire > _shipConfiguration.FireCooldown)
+        {
+            FireBullet();
         }
     }
 
     private void FireBullet()
     {
+        _soundManager.DoBulletSound();
         Bullet bullet = _bulletManager.GetBullet();
         bullet.Fire(_firePosition);
         _lastTimeFire = Time.time;
@@ -95,6 +106,8 @@ public class Ship : MonoBehaviour
 
     private void DestroyByShipBullet(Collider2D collision)
     {
+        _vfxManager.DoExplosionVFX(this.transform);
+        _soundManager.DoDeathSound();
         _lastInput = Vector2.zero;
         _acceptInput = false;
         ActivateShip(false);
@@ -103,6 +116,8 @@ public class Ship : MonoBehaviour
 
     private void DestroyByAsteroid(Collider2D collision)
     {
+        _vfxManager.DoExplosionVFX(this.transform);
+        _soundManager.DoDeathSound();
         _lastInput = Vector2.zero;
         _acceptInput = false;
         ActivateShip(false);

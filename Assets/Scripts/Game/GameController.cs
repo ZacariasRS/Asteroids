@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour
     private Ship _ship;
     [SerializeField]
     private GameUI _gameUI;
+    [SerializeField]
+    private SoundManager _soundManager;
 
     private int _currentHealth;
     private int _currentScore;
@@ -38,6 +40,11 @@ public class GameController : MonoBehaviour
         _gameUI.UpdateHealth(_currentHealth);
         _gameUI.UpdateScore(_currentScore);
         _gameUI.UpdateHighScore();
+#if UNITY_ANDROID || UNITY_IOS
+        _gameUI.BindMobileControls(_ship);
+        _gameUI.ActivateMobileControls(true);
+#endif
+
     }
 
     private void Start()
@@ -60,6 +67,7 @@ public class GameController : MonoBehaviour
 
     internal void ShipDestroyed()
     {
+        _soundManager.ActivateBackgroundMusic(false);
         StopCoroutine(_spawnAsteroidsCR);
         StopCoroutine(_switchDifficultyCR);
         _spawnAsteroids = false;
@@ -79,6 +87,9 @@ public class GameController : MonoBehaviour
 
     private void ShowGameOver()
     {
+#if UNITY_ANDROID || UNITY_IOS
+        _gameUI.ActivateMobileControls(false);
+#endif
         if (_currentScore > PlayerPrefs.GetInt("HighScore", -1))
         {
             PlayerPrefs.SetInt("HighScore", _currentScore);
@@ -95,11 +106,13 @@ public class GameController : MonoBehaviour
     private IEnumerator SetUpGameAfterDeathCR()
     {
         yield return new WaitForSeconds(_gameConfiguration.TimeBetweenDeath);
+        _soundManager.DoRespawnSound();
         SetUpGame();
     }
 
     private void SetUpGame()
     {
+        _soundManager.ActivateBackgroundMusic(true);
         _ship.transform.position = _shipSpawn.transform.position;
         _ship.transform.rotation = _shipSpawn.transform.rotation;
         _ship.AcceptInput(true);

@@ -12,5 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59cc2b3a783c1af43878f34ed43d2a34, type: 3}
   m_Name: GameConfiguration
   m_EditorClassIdentifier: 
+  _gameDifficulties:
+  - _minimumSmallAsteroids: 2
+    _minimumMediumAsteroids: 1
+    _minimumBigAsteroids: 1
+    _timeBetweenSpawns: 1
+  - _minimumSmallAsteroids: 3
+    _minimumMediumAsteroids: 2
+    _minimumBigAsteroids: 1
+    _timeBetweenSpawns: 0.5
+  - _minimumSmallAsteroids: 3
+    _minimumMediumAsteroids: 2
+    _minimumBigAsteroids: 2
+    _timeBetweenSpawns: 0.25
+  _timeToSwitchDifficulty: 15
   _numberOfLives: 3
   _timeBetweenDeath: 2

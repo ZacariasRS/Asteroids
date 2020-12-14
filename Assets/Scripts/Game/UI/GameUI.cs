@@ -9,7 +9,8 @@ public class GameUI : MonoBehaviour
     private TextMeshProUGUI _healthText, _currentScoreText, _highScoreText;
     [SerializeField]
     private GameObject _gameOverPanel;
-    // Start is called before the first frame update
+    [SerializeField]
+    private GameObject _mobileControls;
 
     public void UpdateHealth(int health)
     {
@@ -44,4 +45,12 @@ public class GameUI : MonoBehaviour
     {
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
+
+
+    public void ActivateMobileControls(bool activate)
+    {
+
+        _mobileControls.SetActive(activate);
+    }
+
 }

@@ -19,6 +19,13 @@ public class AsteroidManager : MonoBehaviour
     private List<BigAsteroid> _bigAsteroids;
     [SerializeField]
     private BigAsteroid _bigAsteroidPrefab;
+    [SerializeField]
+    private SoundManager _soundManager;
+    [SerializeField]
+    private VFXManager _vfxManager;
+
+    public SoundManager SoundManager => _soundManager;
+    public VFXManager VFXManager => _vfxManager;
 
     [Space]
     [SerializeField]
