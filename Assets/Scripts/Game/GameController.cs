@@ -41,7 +41,6 @@ public class GameController : MonoBehaviour
         _gameUI.UpdateScore(_currentScore);
         _gameUI.UpdateHighScore();
 #if UNITY_ANDROID || UNITY_IOS
-        _gameUI.BindMobileControls(_ship);
         _gameUI.ActivateMobileControls(true);
 #endif
 

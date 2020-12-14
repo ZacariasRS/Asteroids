@@ -39,7 +39,7 @@ public class Ship : MonoBehaviour
     {
         _rigidBody.drag = _shipConfiguration.LinearDrag;
     }
-    private void MoveInput(Vector2 input)
+    public void MoveInput(Vector2 input)
     {
         _lastInput = input;
     }
@@ -61,7 +61,7 @@ public class Ship : MonoBehaviour
         }
     }
 
-    private void CheckFire()
+    public void CheckFire()
     {
         if (Time.time - _lastTimeFire > _shipConfiguration.FireCooldown)
         {
