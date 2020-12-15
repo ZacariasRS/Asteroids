@@ -78,8 +78,30 @@ public class AsteroidManager : MonoBehaviour
             _numberOfBigAsteroids--;
     }
 
+    internal void DeactivateAllAsteroids()
+    {
+        for (int i = 0; i < _smallAsteroids.Count; i++)
+        {
+            _smallAsteroids[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < _mediumAsteroids.Count; i++)
+        {
+            _mediumAsteroids[i].gameObject.SetActive(false);
+        }
+        for (int i = 0; i < _bigAsteroids.Count; i++)
+        {
+            _bigAsteroids[i].gameObject.SetActive(false);
+        }
+        _numberOfBigAsteroids = _numberOfMediumAsteroids = _numberOfSmallAsteroids = 0;
+    }
+
+
     public List<SmallAsteroid> GetSmallAsteroid(int count)
     {
+        if (count <= 0)
+        {
+            throw new ArgumentException("Count must be higher than 0");
+        }
         List<SmallAsteroid> smallAsteroids = new List<SmallAsteroid>();
         for (int i = 0; i < _smallAsteroids.Count && smallAsteroids.Count < count; i++)
         {
@@ -99,26 +121,12 @@ public class AsteroidManager : MonoBehaviour
         }
         return smallAsteroids;
     }
-
-    internal void DeactivateAllAsteroids()
-    {
-        for (int i = 0; i < _smallAsteroids.Count; i++)
-        {
-            _smallAsteroids[i].gameObject.SetActive(false);
-        }
-        for (int i = 0; i < _mediumAsteroids.Count; i++)
-        {
-            _mediumAsteroids[i].gameObject.SetActive(false);
-        }
-        for (int i = 0; i < _bigAsteroids.Count; i++)
-        {
-            _bigAsteroids[i].gameObject.SetActive(false);
-        }
-        _numberOfBigAsteroids = _numberOfMediumAsteroids = _numberOfSmallAsteroids = 0;
-    }
-
     public List<MediumAsteroid> GetMediumAsteroid(int count)
     {
+        if (count <= 0)
+        {
+            throw new ArgumentException("Count must be higher than 0");
+        }
         List<MediumAsteroid> mediumAsteroids = new List<MediumAsteroid>();
         for (int i = 0; i < _mediumAsteroids.Count && mediumAsteroids.Count < count; i++)
         {
@@ -141,6 +149,10 @@ public class AsteroidManager : MonoBehaviour
 
     public List<BigAsteroid> GetBigAsteroid(int count)
     {
+        if (count <= 0)
+        {
+            throw new ArgumentException("Count must be higher than 0");
+        }
         List<BigAsteroid> bigAsteroids = new List<BigAsteroid>();
         for (int i = 0; i < _bigAsteroids.Count && bigAsteroids.Count < count; i++)
         {
@@ -163,6 +175,10 @@ public class AsteroidManager : MonoBehaviour
 
     public void SpawnSmallAsteroids(int count)
     {
+        if (count <= 0)
+        {
+            throw new ArgumentException("Count must be higher than 0");
+        }
         List<SmallAsteroid> asteroids = GetSmallAsteroid(count);
         for (int i = 0; i < asteroids.Count; i++)
         {
@@ -172,6 +188,10 @@ public class AsteroidManager : MonoBehaviour
 
     public void SpawnMediumAsteroids(int count)
     {
+        if (count <= 0)
+        {
+            throw new ArgumentException("Count must be higher than 0");
+        }
         List<MediumAsteroid> asteroids = GetMediumAsteroid(count);
         for (int i = 0; i < asteroids.Count; i++)
         {
@@ -181,6 +201,10 @@ public class AsteroidManager : MonoBehaviour
 
     public void SpawnBigAsteroids(int count)
     {
+        if (count <= 0)
+        {
+            throw new ArgumentException("Count must be higher than 0");
+        }
         List<BigAsteroid> asteroids = GetBigAsteroid(count);
         for (int i = 0; i < asteroids.Count; i++)
         {
